@@ -1,0 +1,45 @@
+{
+  "kind": "collectionType",
+  "collectionName": "cells",
+  "info": {
+    "singularName": "cell",
+    "pluralName": "cells",
+    "displayName": "Cell"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "Name": {
+      "type": "string"
+    },
+    "Description": {
+      "type": "blocks"
+    },
+    "Leader": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::member.member",
+      "mappedBy": "cell"
+    },
+    "Schedule": {
+      "type": "text"
+    },
+    "Gallery": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": true
+    },
+    "member": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::member.member",
+      "inversedBy": "Involvement"
+    }
+  }
+}

@@ -102,6 +102,7 @@ export default function Home() {
           <div className="text-center p-6 rounded-lg bg-white dark:bg-gray-700 shadow-md">
             <h3 className="text-2xl font-bold mb-3">New Here?</h3>
             <p className="mb-2">We would love to meet you!</p>
+            <p className="mb-2">Join Us!</p>
             <Button
               appName="web"
               className="text-blue-600 dark:text-blue-400 mt-2"

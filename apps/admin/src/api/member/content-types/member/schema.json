@@ -1,0 +1,48 @@
+{
+  "kind": "collectionType",
+  "collectionName": "members",
+  "info": {
+    "singularName": "member",
+    "pluralName": "members",
+    "displayName": "Member",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "Name": {
+      "type": "string"
+    },
+    "Email": {
+      "type": "email"
+    },
+    "Phone": {
+      "type": "string"
+    },
+    "Address": {
+      "type": "text"
+    },
+    "Date": {
+      "type": "date"
+    },
+    "prayer_request": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::prayer-request.prayer-request",
+      "inversedBy": "Submitted"
+    },
+    "cell": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::cell.cell",
+      "inversedBy": "Leader"
+    },
+    "Involvement": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::cell.cell",
+      "mappedBy": "member"
+    }
+  }
+}

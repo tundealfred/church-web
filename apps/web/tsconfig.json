@@ -3,7 +3,13 @@
   "compilerOptions": {
     "plugins": [
       {
-        "name": "next"
+        "name": "next",
+        "jsx": "preserve",
+        "types": ["node", "react", "react-dom", "next"],
+        "baseUrl": ".",
+        "paths": {
+          "@repo/ui/*": ["../../packages/ui/*"]
+        }
       }
     ]
   },

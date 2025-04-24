@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "prayer_requests",
+  "info": {
+    "singularName": "prayer-request",
+    "pluralName": "prayer-requests",
+    "displayName": "Prayer Request"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "Request": {
+      "type": "blocks"
+    },
+    "Submitted": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::member.member",
+      "mappedBy": "prayer_request"
+    },
+    "Condition": {
+      "type": "enumeration",
+      "enum": [
+        "New",
+        "In Progress",
+        "Answered"
+      ]
+    },
+    "Private": {
+      "type": "boolean"
+    }
+  }
+}

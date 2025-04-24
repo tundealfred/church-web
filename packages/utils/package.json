@@ -1,0 +1,17 @@
+{
+  "name": "@church-web/utils",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "prepack": "npm run build"
+  },
+  "dependencies": {
+    "@church-web/shared-types": "*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.1",
+    "typescript": "^5.8.2"
+  }
+}

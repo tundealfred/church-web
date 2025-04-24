@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "sermons",
+  "info": {
+    "singularName": "sermon",
+    "pluralName": "sermons",
+    "displayName": "Sermon"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "Title": {
+      "type": "string"
+    },
+    "Speaker": {
+      "type": "string"
+    },
+    "Reference": {
+      "type": "string"
+    },
+    "Date": {
+      "type": "datetime"
+    },
+    "Summary": {
+      "type": "blocks"
+    }
+  }
+}
