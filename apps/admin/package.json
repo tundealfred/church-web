@@ -15,8 +15,8 @@
     "upgrade:dry": "npx @strapi/upgrade latest --dry"
   },
   "dependencies": {
-    "@strapi/plugin-cloud": "5.12.5",
-    "@strapi/plugin-users-permissions": "5.12.5",
+    "@strapi/plugin-cloud": "4.25.22",
+    "@strapi/plugin-users-permissions": "4.25.22",
     "@strapi/strapi": "^4.25.22",
     "ajv": "^8.12.0",
     "date-fns": "2.30.0",
@@ -24,13 +24,14 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^5.2.0",
-    "styled-components": "^5.2.1"
+    "styled-components": "^5.2.1",
+    "esbuild": "^0.19.12"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "esbuild": "0.19.12",
+    "esbuild": "^0.19.12",
     "typescript": "^5"
   },
   "engines": {
@@ -39,5 +40,8 @@
   },
   "strapi": {
     "uuid": "ab806b9b-5cbf-4b4a-9b73-00f2f07c51bb"
+  },
+  "resolutions": {
+    "date-fns": "2.30.0"
   }
 }
