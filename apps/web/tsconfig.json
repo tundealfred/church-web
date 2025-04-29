@@ -3,7 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@components/*": ["components/*"],
+      "@components/*": ["./components/*"],
       "@components/cards/*": ["components/cards/*"],
       "@repo/ui/*": ["../../packages/ui/*"],
       "@utils/*": ["../../packages/utils/src/*"]
