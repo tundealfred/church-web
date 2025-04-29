@@ -1,49 +1,13 @@
-import Image from "next/image";
+// app/page.tsx
+import { getEvents, getSermons } from "@utils/api";
+import { EventCard } from "@components/cards/EventCard";
+import { SermonCard } from "@components/cards/SermonCard";
 import { Button } from "@repo/ui/button";
 import { FiArrowRight } from "react-icons/fi";
 
-export default function Home() {
-  const upcomingEvents = [
-    {
-      title: "Sunday Worship Service",
-      date: "June 12, 2023",
-      time: "10:00 AM",
-      location: "Main Sanctuary",
-    },
-    {
-      title: "Bible Study",
-      date: "June 14, 2023",
-      time: "7:00 PM",
-      location: "Fellowship Hall",
-    },
-    {
-      title: "Youth Group Meeting",
-      date: "June 16, 2023",
-      time: "6:30 PM",
-      location: "Youth Center",
-    },
-  ];
-
-  const recentSermons = [
-    {
-      title: "The Power of Faith",
-      preacher: "Pastor John Smith",
-      date: "June 5, 2023",
-      image: "/sermon1.jpg",
-    },
-    {
-      title: "Walking in Love",
-      preacher: "Pastor Sarah Johnson",
-      date: "May 29, 2023",
-      image: "/sermon2.jpg",
-    },
-    {
-      title: "Finding Peace",
-      preacher: "Pastor Michael Brown",
-      date: "May 22, 2023",
-      image: "/sermon3.jpg",
-    },
-  ];
+export default async function Home() {
+  const { data: events } = await getEvents();
+  const { data: sermons } = await getSermons();
 
   return (
     <div className="bg-white dark:bg-gray-900 transition-colors duration-300">
@@ -117,28 +81,15 @@ export default function Home() {
       <section className="py-16 container mx-auto px-4">
         <h2 className="text-3xl font-bold mb-8 text-center">Upcoming Events</h2>
         <div className="grid md:grid-cols-3 gap-6">
-          {upcomingEvents.map((event, index) => (
-            <div
-              key={index}
-              className="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden"
-            >
-              <div className="p-6">
-                <h3 className="text-xl font-bold mb-2">{event.title}</h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-1">
-                  <span className="font-semibold">Date:</span> {event.date}
-                </p>
-                <p className="text-gray-600 dark:text-gray-300 mb-1">
-                  <span className="font-semibold">Time:</span> {event.time}
-                </p>
-                <p className="text-gray-600 dark:text-gray-300">
-                  <span className="font-semibold">Location:</span>{" "}
-                  {event.location}
-                </p>
-                <Button appName="web" className="mt-4 w-full">
-                  Learn More
-                </Button>
-              </div>
-            </div>
+          {events.map((event: any) => (
+            <EventCard
+              key={event.id}
+              title={event.attributes?.title}
+              date={event.attributes?.date}
+              time={event.attributes?.time}
+              location={event.attributes?.location}
+              imageUrl={event.attributes?.image?.data?.attributes?.url}
+            />
           ))}
         </div>
         <div className="text-center mt-8">
@@ -155,38 +106,14 @@ export default function Home() {
             Recent Sermons
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
-            {recentSermons.map((sermon, index) => (
-              <div
-                key={index}
-                className="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden"
-              >
-                <div className="h-48 bg-gray-200 dark:bg-gray-600 relative">
-                  <Image
-                    src={sermon.image}
-                    alt={sermon.title}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold mb-2">{sermon.title}</h3>
-                  <p className="text-gray-600 dark:text-gray-300 mb-1">
-                    <span className="font-semibold">Preacher:</span>{" "}
-                    {sermon.preacher}
-                  </p>
-                  <p className="text-gray-600 dark:text-gray-300 mb-4">
-                    <span className="font-semibold">Date:</span> {sermon.date}
-                  </p>
-                  <div className="flex gap-3">
-                    <Button appName="web" className="flex-1">
-                      Watch
-                    </Button>
-                    <Button appName="web" className="flex-1">
-                      Listen
-                    </Button>
-                  </div>
-                </div>
-              </div>
+            {sermons.map((sermon: any) => (
+              <SermonCard key={sermon.id} sermon={sermon} />
+              //<SermonCard
+              //key={sermon.id}
+              //title={sermon.attributes?.title}
+              //preacher={sermon.attributes?.speaker}
+              //date={sermon.attributes?.date}
+              ///>
             ))}
           </div>
           <div className="text-center mt-8">

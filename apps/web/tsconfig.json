@@ -1,15 +1,18 @@
 {
   "extends": "@repo/typescript-config/nextjs.json",
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@components/*": ["components/*"],
+      "@components/cards/*": ["components/cards/*"],
+      "@repo/ui/*": ["../../packages/ui/*"],
+      "@utils/*": ["../../packages/utils/src/*"]
+    },
     "plugins": [
       {
         "name": "next",
         "jsx": "preserve",
-        "types": ["node", "react", "react-dom", "next"],
-        "baseUrl": ".",
-        "paths": {
-          "@repo/ui/*": ["../../packages/ui/*"]
-        }
+        "types": ["node", "react", "react-dom", "next"]
       }
     ]
   },
@@ -20,7 +23,5 @@
     "next.config.js",
     ".next/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

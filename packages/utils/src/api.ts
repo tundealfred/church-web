@@ -1,29 +1,66 @@
-import { Sermon, Event, PrayerRequest, Cell } from "@shared-types";
-
+// lib/api.ts
 const API_URL = process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
-if (!API_URL) {
-  console.warn("NEXT_PUBLIC_STRAPI_URL environment variable is not set");
+
+interface StrapiResponse<T> {
+  data: T;
+  meta: {
+    pagination?: {
+      page: number;
+      pageSize: number;
+      pageCount: number;
+      total: number;
+    };
+  };
 }
 
-export async function fetchAPI<T>(
-  endpoint: string,
-  params?: string
-): Promise<T> {
+export interface Event {
+  id: number;
+  attributes: {
+    Title: string;
+    Description: { type: string; children: { text: string }[] }[];
+    Date: string;
+    Time: string;
+    Location: string;
+    Image: {
+      data: {
+        attributes: {
+          url: string;
+          formats: {
+            thumbnail: { url: string };
+            small: { url: string };
+            medium: { url: string };
+            large: { url: string };
+          };
+        };
+      };
+    };
+  };
+}
+
+export interface Sermon {
+  id: number;
+  attributes: {
+    Title: string;
+    Speaker: string;
+    Date: string;
+    AudioFile: {
+      data: {
+        attributes: {
+          url: string;
+        };
+      };
+    };
+  };
+}
+
+export async function getEvents(): Promise<StrapiResponse<Event[]>> {
+  const res = await fetch(`${API_URL}/api/events?populate=*&sort[0]=date:desc`);
+  return res.json();
+}
+
+export async function getSermons(): Promise<StrapiResponse<Sermon[]>> {
   const res = await fetch(
-    `${API_URL}/api${endpoint}${params ? `?${params}` : ""}`
+    `${API_URL}/api/sermons?populate=*&sort[0]=date:desc`
   );
-  if (!res.ok) throw new Error(`Failed to fetch ${endpoint}`);
-  return await res.json();
+  return res.json();
 }
-
-// Specific content type fetchers
-export const getSermons = () =>
-  fetchAPI<{ data: Sermon[] }>("/sermons?populate=*&sort[0]=date:desc");
-export const getEvents = () =>
-  fetchAPI<{ data: Event[] }>("/events?populate[0]=image&sort[0]=date:desc");
-export const getPrayerRequests = () =>
-  fetchAPI<{ data: PrayerRequest[] }>(
-    "/prayer-requests?filters[private][$eq]=false"
-  );
-export const getCells = () =>
-  fetchAPI<{ data: Cell[] }>("/cells?populate[0]=leader&populate[1]=gallery");
