@@ -45,6 +45,7 @@ export interface Sermon {
     Title: string;
     Speaker: string;
     Date: string;
+    Reference: string;
     AudioFile: {
       data: {
         attributes: {
@@ -57,33 +58,18 @@ export interface Sermon {
 
 export async function getEvents(): Promise<StrapiResponse<Event[]>> {
   try {
-    const url = new URL(`${API_URL}/api/events`);
-    url.searchParams.append("populate", "*");
-    url.searchParams.append("sort[0]", "date:desc");
-
-    console.log("Fetching events from:", url.toString());
-
-    const res = await fetch(url.toString(), {
-      cache: "no-store", // Important for server components
-    });
-
-    if (!res.ok) {
-      const errorText = await res.text();
-      throw new Error(`Failed to fetch events: ${res.status} ${errorText}`);
-    }
-
+    const res = await fetch(`${API_URL}/api/events?populate=*`);
+    if (!res.ok) throw new Error("Failed to fetch sermons");
     return await res.json();
   } catch (err) {
-    console.error("Error fetching events:", err);
+    console.error("Error fetching sermons:", err);
     return { data: [], meta: {} };
   }
 }
 
 export async function getSermons(): Promise<StrapiResponse<Sermon[]>> {
   try {
-    const res = await fetch(
-      `${API_URL}/api/sermons?populate=*&sort[0]=date:desc`
-    );
+    const res = await fetch(`${API_URL}/api/sermons?populate=*`);
     if (!res.ok) throw new Error("Failed to fetch sermons");
     return await res.json();
   } catch (err) {

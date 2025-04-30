@@ -1,3 +1,4 @@
+//apps/admin/config/middlewares.ts
 module.exports = [
   "strapi::errors",
   {

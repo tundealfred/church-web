@@ -82,51 +82,53 @@ export default async function Home() {
       </section>
 
       {/* Upcoming Events */}
-      <section className="py-16 container mx-auto px-4">
-        <h2 className="text-3xl font-bold mb-8 text-center">Upcoming Events</h2>
-        <div className="grid md:grid-cols-3 gap-6">
-          {events.length > 0 ? (
-            <div className="grid md:grid-cols-3 gap-6">
-              {events.map((event) => {
-                const attr = event.attributes;
-                return (
-                  <div
-                    key={event.id}
-                    className="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden"
-                  >
-                    {attr.Image?.data?.attributes?.url && (
-                      <Image
-                        src={attr.Image.data.attributes.url}
-                        alt={attr.Title}
-                        width={800} // You must set width and height, or use layout="fill"
-                        height={300}
-                        className="w-full h-48 object-cover"
-                        style={{ objectFit: "cover" }}
-                      />
-                    )}
-                    <div className="p-4">
-                      <h3 className="text-xl font-semibold mb-2">
-                        {attr.Title}
-                      </h3>
-                      <p className="text-gray-600 dark:text-gray-400">
-                        {attr.Date} at {attr.Time}
-                      </p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-                        {attr.Location}
-                      </p>
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold mb-8 text-center">
+            Upcoming Events
+          </h2>
+          <div className="grid gap-8">
+            {events.length > 0 ? (
+              <div className="grid md:grid-cols-4 gap-8">
+                {events.map((event) => {
+                  const attr = event.attributes;
+                  return (
+                    <div
+                      key={event.id}
+                      className="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden"
+                    >
+                      {attr.Image?.data?.attributes?.url && (
+                        <Image
+                          src={attr.Image.data.attributes.url}
+                          alt={attr.Title}
+                          className="w-full h-48 object-cover"
+                          style={{ objectFit: "cover" }}
+                        />
+                      )}
+                      <div className="p-4">
+                        <h3 className="text-xl font-semibold mb-2">
+                          {attr.Title}
+                        </h3>
+                        <p className="text-gray-600 dark:text-gray-400">
+                          {attr.Date} at {attr.Time}
+                        </p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                          {attr.Location}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <p className="text-center">No upcoming events</p>
-          )}
-        </div>
-        <div className="text-center mt-8">
-          <Button appName="web" className="px-8 py-3">
-            View All Events
-          </Button>
+                  );
+                })}
+              </div>
+            ) : (
+              <p className="text-center">No upcoming events</p>
+            )}
+          </div>
+          <div className="text-center mt-8">
+            <Button appName="web" className="px-8 py-3">
+              View All Events
+            </Button>
+          </div>
         </div>
       </section>
 
@@ -151,13 +153,16 @@ export default async function Home() {
                   <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
                     {attr.Date}
                   </p>
-                  <audio controls className="w-full mt-2">
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                    {attr.Reference}
+                  </p>
+                  {/*<audio controls className="w-full mt-2">
                     <source
                       src={attr.AudioFile?.data?.attributes?.url}
                       type="audio/mpeg"
                     />
                     Your browser does not support the audio element.
-                  </audio>
+                  </audio>*/}
                 </div>
               );
             })}
