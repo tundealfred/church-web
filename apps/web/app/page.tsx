@@ -1,13 +1,17 @@
 // app/page.tsx
 import { getEvents, getSermons } from "@utils/api";
-import { EventCard } from "@components/cards/EventCard";
-import { SermonCard } from "@components/cards/SermonCard";
 import { Button } from "@repo/ui/button";
 import { FiArrowRight } from "react-icons/fi";
+import Image from "next/image";
 
 export default async function Home() {
-  const { data: events } = await getEvents();
-  const { data: sermons } = await getSermons();
+  const eventsResponse = await getEvents();
+  const sermonsResponse = await getSermons();
+
+  const events = eventsResponse.data || []; // Fallback to empty array
+  const sermons = sermonsResponse.data || []; // Fallback to empty array
+
+  console.log("ENV STRAPI URL:", process.env.NEXT_PUBLIC_STRAPI_URL);
 
   return (
     <div className="bg-white dark:bg-gray-900 transition-colors duration-300">
@@ -81,16 +85,43 @@ export default async function Home() {
       <section className="py-16 container mx-auto px-4">
         <h2 className="text-3xl font-bold mb-8 text-center">Upcoming Events</h2>
         <div className="grid md:grid-cols-3 gap-6">
-          {events.map((event: any) => (
-            <EventCard
-              key={event.id}
-              title={event.attributes?.title}
-              date={event.attributes?.date}
-              time={event.attributes?.time}
-              location={event.attributes?.location}
-              imageUrl={event.attributes?.image?.data?.attributes?.url}
-            />
-          ))}
+          {events.length > 0 ? (
+            <div className="grid md:grid-cols-3 gap-6">
+              {events.map((event) => {
+                const attr = event.attributes;
+                return (
+                  <div
+                    key={event.id}
+                    className="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden"
+                  >
+                    {attr.Image?.data?.attributes?.url && (
+                      <Image
+                        src={attr.Image.data.attributes.url}
+                        alt={attr.Title}
+                        width={800} // You must set width and height, or use layout="fill"
+                        height={300}
+                        className="w-full h-48 object-cover"
+                        style={{ objectFit: "cover" }}
+                      />
+                    )}
+                    <div className="p-4">
+                      <h3 className="text-xl font-semibold mb-2">
+                        {attr.Title}
+                      </h3>
+                      <p className="text-gray-600 dark:text-gray-400">
+                        {attr.Date} at {attr.Time}
+                      </p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                        {attr.Location}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <p className="text-center">No upcoming events</p>
+          )}
         </div>
         <div className="text-center mt-8">
           <Button appName="web" className="px-8 py-3">
@@ -106,15 +137,30 @@ export default async function Home() {
             Recent Sermons
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
-            {sermons.map((sermon: any) => (
-              <SermonCard key={sermon.id} sermon={sermon} />
-              //<SermonCard
-              //key={sermon.id}
-              //title={sermon.attributes?.title}
-              //preacher={sermon.attributes?.speaker}
-              //date={sermon.attributes?.date}
-              ///>
-            ))}
+            {sermons.map((sermon) => {
+              const attr = sermon.attributes;
+              return (
+                <div
+                  key={sermon.id}
+                  className="bg-white dark:bg-gray-900 shadow-md rounded-lg p-4"
+                >
+                  <h3 className="text-xl font-semibold mb-2">{attr.Title}</h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
+                    {attr.Speaker}
+                  </p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                    {attr.Date}
+                  </p>
+                  <audio controls className="w-full mt-2">
+                    <source
+                      src={attr.AudioFile?.data?.attributes?.url}
+                      type="audio/mpeg"
+                    />
+                    Your browser does not support the audio element.
+                  </audio>
+                </div>
+              );
+            })}
           </div>
           <div className="text-center mt-8">
             <Button appName="web" className="px-8 py-3">

@@ -3,10 +3,13 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@/*": ["./*"],
+      "@cards/*": ["./components/cards/*"],
+      "@utils/*": ["../../packages/utils/src/*"],
+      "@utils": ["../../packages/utils/src"],
       "@components/*": ["./components/*"],
-      "@components/cards/*": ["components/cards/*"],
-      "@repo/ui/*": ["../../packages/ui/*"],
-      "@utils/*": ["../../packages/utils/src/*"]
+      "@components": ["./components"],
+      "@repo/ui/*": ["../../packages/ui/*"]
     },
     "plugins": [
       {
