@@ -95,7 +95,7 @@ export default async function Home() {
                   const attr = event.attributes;
                   const imageUrl = attr.Image?.data?.attributes?.url
                     ? `${process.env.NEXT_PUBLIC_STRAPI_URL?.replace("/api", "")}${attr.Image.data.attributes.url}`
-                    : "https://placehold.co/800x400";
+                    : "https://placehold.co/800x400.jpg";
 
                   return (
                     <div
