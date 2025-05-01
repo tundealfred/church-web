@@ -2,6 +2,7 @@
 const API_URL = process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
 
 console.log("API_URL resolved to:", API_URL);
+console.log("ENV STRAPI URL:", process.env.NEXT_PUBLIC_STRAPI_URL);
 
 interface StrapiResponse<T> {
   data: T;

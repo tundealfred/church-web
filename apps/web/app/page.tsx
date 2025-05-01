@@ -12,6 +12,7 @@ export default async function Home() {
   const sermons = sermonsResponse.data || []; // Fallback to empty array
 
   console.log("ENV STRAPI URL:", process.env.NEXT_PUBLIC_STRAPI_URL);
+  console.log("STRAPI URL:", process.env.NEXT_PUBLIC_STRAPI_URL);
 
   return (
     <div className="bg-white dark:bg-gray-900 transition-colors duration-300">
@@ -92,19 +93,24 @@ export default async function Home() {
               <div className="grid md:grid-cols-4 gap-8">
                 {events.map((event) => {
                   const attr = event.attributes;
+                  const imageUrl = attr.Image?.data?.attributes?.url
+                    ? `${process.env.NEXT_PUBLIC_STRAPI_URL?.replace("/api", "")}${attr.Image.data.attributes.url}`
+                    : "https://placehold.co/800x400";
+
                   return (
                     <div
                       key={event.id}
                       className="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden"
                     >
-                      {attr.Image?.data?.attributes?.url && (
+                      <div className="relative w-full h-48">
                         <Image
-                          src={attr.Image.data.attributes.url}
+                          src={imageUrl}
                           alt={attr.Title}
-                          className="w-full h-48 object-cover"
-                          style={{ objectFit: "cover" }}
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          className="object-cover"
                         />
-                      )}
+                      </div>
                       <div className="p-4">
                         <h3 className="text-xl font-semibold mb-2">
                           {attr.Title}
@@ -138,35 +144,39 @@ export default async function Home() {
           <h2 className="text-3xl font-bold mb-8 text-center">
             Recent Sermons
           </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            {sermons.map((sermon) => {
-              const attr = sermon.attributes;
-              return (
-                <div
-                  key={sermon.id}
-                  className="bg-white dark:bg-gray-900 shadow-md rounded-lg p-4"
-                >
-                  <h3 className="text-xl font-semibold mb-2">{attr.Title}</h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
-                    {attr.Speaker}
-                  </p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-                    {attr.Date}
-                  </p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-                    {attr.Reference}
-                  </p>
-                  {/*<audio controls className="w-full mt-2">
+          {sermons.length > 0 ? (
+            <div className="grid md:grid-cols-3 gap-8">
+              {sermons.map((sermon) => {
+                const attr = sermon.attributes;
+                return (
+                  <div
+                    key={sermon.id}
+                    className="bg-white dark:bg-gray-900 shadow-md rounded-lg p-4"
+                  >
+                    <h3 className="text-xl font-semibold mb-2">{attr.Title}</h3>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
+                      {attr.Speaker}
+                    </p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                      {attr.Date}
+                    </p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                      {attr.Reference}
+                    </p>
+                    {/*<audio controls className="w-full mt-2">
                     <source
                       src={attr.AudioFile?.data?.attributes?.url}
                       type="audio/mpeg"
                     />
                     Your browser does not support the audio element.
                   </audio>*/}
-                </div>
-              );
-            })}
-          </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <p className="text-center">No upcoming sermons</p>
+          )}
           <div className="text-center mt-8">
             <Button appName="web" className="px-8 py-3">
               Sermon Archive

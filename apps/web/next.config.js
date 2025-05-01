@@ -1,3 +1,4 @@
+//church-web/apps/web/next.config.js
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -9,8 +10,21 @@ const nextConfig = {
   experimental: {
     externalDir: true,
   },
+  //images: {
+  //domains: ["localhost", "placehold.co"], // Allow images from http://localhost:1337
+  //},
   images: {
-    domains: ["localhost"], // Allow images from http://localhost:1337
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "1337",
+      },
+      {
+        protocol: "https",
+        hostname: "placehold.co",
+      },
+    ],
   },
   webpack: (config) => {
     config.resolve.alias = {
