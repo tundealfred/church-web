@@ -8,8 +8,8 @@ export default async function Home() {
   const eventsResponse = await getEvents();
   const sermonsResponse = await getSermons();
 
-  const events = eventsResponse.data || []; // Fallback to empty array
-  const sermons = sermonsResponse.data || []; // Fallback to empty array
+  const events = eventsResponse.data || [];
+  const sermons = sermonsResponse.data || [];
 
   console.log("ENV STRAPI URL:", process.env.NEXT_PUBLIC_STRAPI_URL);
   console.log("STRAPI URL:", process.env.NEXT_PUBLIC_STRAPI_URL);
@@ -93,8 +93,8 @@ export default async function Home() {
               <div className="grid md:grid-cols-4 gap-8">
                 {events.map((event) => {
                   const attr = event.attributes;
-                  const imageUrl = attr.Image?.data?.attributes?.url
-                    ? `${process.env.NEXT_PUBLIC_STRAPI_URL?.replace("/api", "")}${attr.Image.data.attributes.url}`
+                  const imageUrl = attr.Image?.data?.[0]?.attributes?.url
+                    ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${attr.Image.data[0].attributes.url}`
                     : "https://placehold.co/800x400.jpg";
 
                   return (
@@ -109,6 +109,7 @@ export default async function Home() {
                           fill
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                           className="object-cover"
+                          priority
                         />
                       </div>
                       <div className="p-4">
@@ -148,6 +149,17 @@ export default async function Home() {
             <div className="grid md:grid-cols-3 gap-8">
               {sermons.map((sermon) => {
                 const attr = sermon.attributes;
+                const sermonDate = new Date(attr.Date);
+                const formattedDate = sermonDate.toLocaleDateString("en-GB", {
+                  weekday: "long",
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                });
+                const formattedTime = sermonDate.toLocaleTimeString("en-GB", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                });
                 return (
                   <div
                     key={sermon.id}
@@ -158,7 +170,7 @@ export default async function Home() {
                       {attr.Speaker}
                     </p>
                     <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-                      {attr.Date}
+                      {formattedDate} at {formattedTime}
                     </p>
                     <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
                       {attr.Reference}

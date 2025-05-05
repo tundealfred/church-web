@@ -25,7 +25,7 @@ export interface Event {
     Time: string;
     Location: string;
     Image: {
-      data: {
+      data: Array<{
         attributes: {
           url: string;
           formats: {
@@ -35,7 +35,7 @@ export interface Event {
             large: { url: string };
           };
         };
-      };
+      }>;
     };
   };
 }
