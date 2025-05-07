@@ -1,6 +1,5 @@
 // app/page.tsx
 import { getEvents, getSermons } from "@utils/api";
-import { Button } from "@repo/ui/button";
 import { FiArrowRight } from "react-icons/fi";
 import Image from "next/image";
 
@@ -11,73 +10,89 @@ export default async function Home() {
   const events = eventsResponse.data || [];
   const sermons = sermonsResponse.data || [];
 
-  console.log("ENV STRAPI URL:", process.env.NEXT_PUBLIC_STRAPI_URL);
-  console.log("STRAPI URL:", process.env.NEXT_PUBLIC_STRAPI_URL);
-
   return (
-    <div className="bg-white dark:bg-gray-900 transition-colors duration-300">
+    <div className="bg-white dark:bg-gray-900">
       {/* Hero Section */}
-      <section className="relative h-[80vh] flex items-center justify-center bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-        <div className="absolute inset-0 bg-black/30"></div>
-        <div className="container mx-auto px-4 z-10 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">
+      <section className="relative h-screen min-h-[-600px] flex items-center justify-center text-white overflow-hidden">
+        <div className="absolute inset-0">
+          <Image
+            src="/images/churchpic1.jpg"
+            alt="Church community worship"
+            fill
+            className="object-cover object-center"
+            priority
+            quality={90}
+            placeholder="blur"
+            blurDataURL="data:image/svg+xml;base64,[your-tiny-blurhash]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/30" />
+        </div>
+        <div className="container mx-auto px-4 z-10 text-center animate-fade-in">
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight transition-opacity duration-700">
             Welcome to Grace Community Church
           </h1>
-          <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
+
+          <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto transition-opacity duration-700 delay-100">
             A place where faith, hope, and love come together
           </p>
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              appName="web"
-              className="px-8 py-3 bg-white text-blue-600 hover:bg-gray-100 font-semibold"
-            >
+            <button className="px-8 py-3 bg-white text-blue-600 hover:bg-gray-100 font-semibold rounded transition transform hover:scale-105">
               Join Us Sunday
-            </Button>
-            <Button
-              appName="web"
-              className="px-8 py-3 border-2 border-white text-white hover:bg-white/10 font-semibold"
-            >
+            </button>
+
+            <button className="px-8 py-3 border-2 border-white text-white hover:bg-white/10 font-semibold rounded transition transform hover:scale-105">
               Watch Online
-            </Button>
+            </button>
+          </div>
+
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce opacity-70">
+            <FiArrowRight className="rotate-90 text-2xl" />
           </div>
         </div>
       </section>
 
       {/* Quick Info Section */}
       <section className="py-16 bg-gray-50 dark:bg-gray-800">
-        <div className="container mx-auto px-4 grid md:grid-cols-3 gap-8">
-          <div className="text-center p-6 rounded-lg bg-white dark:bg-gray-700 shadow-md">
-            <h3 className="text-2xl font-bold mb-3">Service Times</h3>
-            <p className="mb-2">Sunday: 8:30 AM & 10:30 AM</p>
-            <p className="mb-2">Wednesday: 7:00 PM</p>
-            <Button
-              appName="web"
-              className="text-blue-600 dark:text-blue-400 mt-2"
-            >
-              More Info <FiArrowRight className="ml-1" />
-            </Button>
-          </div>
-          <div className="text-center p-6 rounded-lg bg-white dark:bg-gray-700 shadow-md">
-            <h3 className="text-2xl font-bold mb-3">Location</h3>
-            <p className="mb-2">123 Faith Avenue</p>
-            <p className="mb-2">Anytown, ST 12345</p>
-            <Button
-              appName="web"
-              className="text-blue-600 dark:text-blue-400 mt-2"
-            >
-              Get Directions <FiArrowRight className="ml-1" />
-            </Button>
-          </div>
-          <div className="text-center p-6 rounded-lg bg-white dark:bg-gray-700 shadow-md">
-            <h3 className="text-2xl font-bold mb-3">New Here?</h3>
-            <p className="mb-2">We would love to meet you!</p>
-            <p className="mb-2">Join Us!</p>
-            <Button
-              appName="web"
-              className="text-blue-600 dark:text-blue-400 mt-2"
-            >
-              Plan Your Visit <FiArrowRight className="ml-1" />
-            </Button>
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold mb-12 text-center">
+            Our Church Community
+          </h2>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                title: "Service Times",
+                content: ["Sunday: 8:30 AM & 10:30 AM", "Wednesday: 7:00 PM"],
+                button: "More Info",
+              },
+              {
+                title: "Location",
+                content: ["123 Faith Avenue", "Ellesmere Port, CH65 1AB"],
+                button: "Get Directions",
+              },
+              {
+                title: "New Here?",
+                content: ["We would love to meet you!", "Join Us!"],
+                button: "Plan Your Visit",
+              },
+            ].map((card, index) => (
+              <div
+                key={index}
+                className="text-center p-8 rounded-xl bg-white dark:bg-gray-700 shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-2"
+              >
+                <h3 className="text-2xl font-bold mb-4">{card.title}</h3>
+                {card.content.map((text, i) => (
+                  <p key={i} className="mb-2 text-gray-600 dark:text-gray-300">
+                    {text}
+                  </p>
+                ))}
+                <button className="mt-4 text-blue-600 dark:text-blue-400 group transition-transform">
+                  {card.button}
+                  <FiArrowRight className="ml-1 inline group-hover:translate-x-1 transition-transform" />
+                </button>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -85,12 +100,13 @@ export default async function Home() {
       {/* Upcoming Events */}
       <section className="py-16">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-8 text-center">
+          <h2 className="text-3xl font-bold mb-12 text-center">
             Upcoming Events
           </h2>
+
           <div className="grid gap-8">
             {events.length > 0 ? (
-              <div className="grid md:grid-cols-4 gap-8">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {events.map((event) => {
                   const attr = event.attributes;
                   const imageUrl = attr.Image?.data?.[0]?.attributes?.url
@@ -100,7 +116,7 @@ export default async function Home() {
                   return (
                     <div
                       key={event.id}
-                      className="bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden"
+                      className="bg-white dark:bg-gray-800 shadow-lg rounded-xl overflow-hidden hover:shadow-xl transition-all transform hover:-translate-y-1"
                     >
                       <div className="relative w-full h-48">
                         <Image
@@ -112,14 +128,19 @@ export default async function Home() {
                           priority
                         />
                       </div>
-                      <div className="p-4">
+                      <div className="p-6">
                         <h3 className="text-xl font-semibold mb-2">
                           {attr.Title}
                         </h3>
-                        <p className="text-gray-600 dark:text-gray-400">
-                          {attr.Date} at {attr.Time}
+                        <p className="text-gray-600 dark:text-gray-400 mb-2">
+                          {new Date(attr.Date).toLocaleDateString("en-GB", {
+                            weekday: "long",
+                            day: "numeric",
+                            month: "long",
+                          })}
+                          {attr.Time && ` at ${attr.Time}`}
                         </p>
-                        <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
                           {attr.Location}
                         </p>
                       </div>
@@ -131,10 +152,11 @@ export default async function Home() {
               <p className="text-center">No upcoming events</p>
             )}
           </div>
-          <div className="text-center mt-8">
-            <Button appName="web" className="px-8 py-3">
+
+          <div className="text-center mt-12">
+            <button className="px-8 py-3 bg-blue-600 text-white rounded transition transform hover:scale-105">
               View All Events
-            </Button>
+            </button>
           </div>
         </div>
       </section>
@@ -142,11 +164,12 @@ export default async function Home() {
       {/* Recent Sermons */}
       <section className="py-16 bg-gray-50 dark:bg-gray-800">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-8 text-center">
+          <h2 className="text-3xl font-bold mb-12 text-center">
             Recent Sermons
           </h2>
+
           {sermons.length > 0 ? (
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {sermons.map((sermon) => {
                 const attr = sermon.attributes;
                 const sermonDate = new Date(attr.Date);
@@ -160,39 +183,37 @@ export default async function Home() {
                   hour: "2-digit",
                   minute: "2-digit",
                 });
+
                 return (
                   <div
                     key={sermon.id}
-                    className="bg-white dark:bg-gray-900 shadow-md rounded-lg p-4"
+                    className="bg-white dark:bg-gray-900 shadow-lg rounded-xl p-6 hover:shadow-xl transition-all transform hover:-translate-y-1"
                   >
-                    <h3 className="text-xl font-semibold mb-2">{attr.Title}</h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
+                    <h3 className="text-xl font-semibold mb-3">{attr.Title}</h3>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
                       {attr.Speaker}
                     </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
                       {formattedDate} at {formattedTime}
                     </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
                       {attr.Reference}
                     </p>
-                    {/*<audio controls className="w-full mt-2">
-                    <source
-                      src={attr.AudioFile?.data?.attributes?.url}
-                      type="audio/mpeg"
-                    />
-                    Your browser does not support the audio element.
-                  </audio>*/}
+                    <button className="text-blue-600 dark:text-blue-400 text-sm flex items-center gap-1 group transition-transform hover:translate-x-1">
+                      Listen Now <FiArrowRight />
+                    </button>
                   </div>
                 );
               })}
             </div>
           ) : (
-            <p className="text-center">No upcoming sermons</p>
+            <p className="text-center">No recent sermons</p>
           )}
-          <div className="text-center mt-8">
-            <Button appName="web" className="px-8 py-3">
+
+          <div className="text-center mt-12">
+            <button className="px-8 py-3 bg-blue-600 text-white rounded transition transform hover:scale-105">
               Sermon Archive
-            </Button>
+            </button>
           </div>
         </div>
       </section>
@@ -203,23 +224,20 @@ export default async function Home() {
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Ready to take the next step?
           </h2>
+
           <p className="text-xl mb-8 max-w-2xl mx-auto">
             Whether you are new to faith or looking to grow deeper, we are here
             to help.
           </p>
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              appName="web"
-              className="px-8 py-3 bg-white text-blue-600 hover:bg-gray-100 font-semibold"
-            >
+            <button className="px-8 py-3 bg-white text-blue-600 hover:bg-gray-100 font-semibold rounded transition transform hover:scale-105">
               Get Connected
-            </Button>
-            <Button
-              appName="web"
-              className="px-8 py-3 border-2 border-white text-white hover:bg-white/10 font-semibold"
-            >
+            </button>
+
+            <button className="px-8 py-3 border-2 border-white text-white hover:bg-white/10 font-semibold rounded transition transform hover:scale-105">
               Contact Us
-            </Button>
+            </button>
           </div>
         </div>
       </section>
