@@ -2,6 +2,7 @@
 import { getEvents, getSermons } from "@utils/api";
 import { FiArrowRight } from "react-icons/fi";
 import Image from "next/image";
+import Link from "next/link";
 
 export default async function Home() {
   const eventsResponse = await getEvents();
@@ -9,6 +10,9 @@ export default async function Home() {
 
   const events = eventsResponse.data || [];
   const sermons = sermonsResponse.data || [];
+
+  const recentEvents = events.slice(-3).reverse();
+  const recentSermons = sermons.slice(-3).reverse();
 
   return (
     <div className="bg-white dark:bg-gray-900">
@@ -38,11 +42,11 @@ export default async function Home() {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button className="px-8 py-3 bg-white text-blue-600 hover:bg-gray-100 font-semibold rounded transition transform hover:scale-105">
-              Join Us Sunday
+              Plan A Visit
             </button>
 
             <button className="px-8 py-3 border-2 border-white text-white hover:bg-white/10 font-semibold rounded transition transform hover:scale-105">
-              Watch Online
+              Get Involved
             </button>
           </div>
 
@@ -97,6 +101,49 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* About Us Section */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row items-center gap-12">
+            {/* Image on left */}
+            <div className="w-full md:w-1/2">
+              <div className="relative h-96 rounded-xl overflow-hidden shadow-lg">
+                <Image
+                  src="/images/churchpic3.jpg"
+                  alt="About Grace Community Church"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              </div>
+            </div>
+
+            {/* Text content on right */}
+            <div className="w-full md:w-1/2">
+              <h2 className="text-3xl font-bold mb-6">About Our Church</h2>
+              <p className="text-lg mb-6 text-gray-600 dark:text-gray-300">
+                Grace Community Church has been serving the Ellesmere Port
+                community since 1985. We are a vibrant, welcoming church family
+                committed to sharing God&apos;s love through worship,
+                fellowship, and service.
+              </p>
+              <p className="text-lg mb-8 text-gray-600 dark:text-gray-300">
+                Our mission is to help people know Christ, grow in faith, and go
+                serve others. Whether you&apos;re new to faith or have been
+                following Jesus for years, there&apos;s a place for you here.
+              </p>
+              <Link
+                href="/about"
+                className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg transition hover:bg-blue-700 hover:scale-105"
+              >
+                Learn More About Us
+                <FiArrowRight className="ml-2" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Upcoming Events */}
       <section className="py-16">
         <div className="container mx-auto px-4">
@@ -105,9 +152,9 @@ export default async function Home() {
           </h2>
 
           <div className="grid gap-8">
-            {events.length > 0 ? (
+            {recentEvents.length > 0 ? (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {events.map((event) => {
+                {recentEvents.map((event) => {
                   const attr = event.attributes;
                   const imageUrl = attr.Image?.data?.[0]?.attributes?.url
                     ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${attr.Image.data[0].attributes.url}`
@@ -153,11 +200,16 @@ export default async function Home() {
             )}
           </div>
 
-          <div className="text-center mt-12">
-            <button className="px-8 py-3 bg-blue-600 text-white rounded transition transform hover:scale-105">
-              View All Events
-            </button>
-          </div>
+          {events.length > 3 && (
+            <div className="text-center mt-12">
+              <Link
+                href="/events"
+                className="inline-block px-8 py-3 bg-blue-600 text-white rounded transition transform hover:scale-105"
+              >
+                View All Events
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 
@@ -168,9 +220,9 @@ export default async function Home() {
             Recent Sermons
           </h2>
 
-          {sermons.length > 0 ? (
+          {recentSermons.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {sermons.map((sermon) => {
+              {recentSermons.map((sermon) => {
                 const attr = sermon.attributes;
                 const sermonDate = new Date(attr.Date);
                 const formattedDate = sermonDate.toLocaleDateString("en-GB", {
@@ -210,11 +262,16 @@ export default async function Home() {
             <p className="text-center">No recent sermons</p>
           )}
 
-          <div className="text-center mt-12">
-            <button className="px-8 py-3 bg-blue-600 text-white rounded transition transform hover:scale-105">
-              Sermon Archive
-            </button>
-          </div>
+          {sermons.length > 3 && (
+            <div className="text-center mt-12">
+              <Link
+                href="/sermons"
+                className="inline-block px-8 py-3 bg-blue-600 text-white rounded transition transform hover:scale-105"
+              >
+                View All Sermons
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 
