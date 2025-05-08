@@ -252,7 +252,7 @@ export default async function Home() {
                       {attr.Reference}
                     </p>
                     <button className="text-blue-600 dark:text-blue-400 text-sm flex items-center gap-1 group transition-transform hover:translate-x-1">
-                      Listen Now <FiArrowRight />
+                      Learn More <FiArrowRight />
                     </button>
                   </div>
                 );
