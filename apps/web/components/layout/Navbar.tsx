@@ -21,7 +21,16 @@ export default function Navbar() {
     { name: "About", href: "/about" },
     { name: "Worship", href: "/worship" },
     { name: "Sermons", href: "/sermons" },
-    { name: "Get Involved", href: "/get-involved" },
+    {
+      name: "Get Involved",
+      href: "/get-involved",
+      subLinks: [
+        { name: "Kids Ministry", href: "/kids" },
+        { name: "Youth Group", href: "/youth" },
+        { name: "Bible Study", href: "/bible-study" },
+        { name: "Outreach", href: "/outreach" },
+      ],
+    },
     { name: "Contact", href: "/contact" },
   ];
 
@@ -101,19 +110,12 @@ export default function Navbar() {
             />
           </div>
         )}
-
-        {/* Mobile Menu - Will be rendered by MobileMenu component 
-      <MobileMenu
-        isOpen={isMobileMenuOpen}
-        links={navLinks}
-        pathname={pathname}
-        onClose={() => setIsMobileMenuOpen(false)}
-      /> */}
       </nav>
       <MobileMenu
         isOpen={isMobileMenuOpen}
         links={navLinks}
         pathname={pathname}
+        serviceTimes="Sundays at 10:00 AM"
         onClose={() => setIsMobileMenuOpen(false)}
       />
     </>

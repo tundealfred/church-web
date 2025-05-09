@@ -1,16 +1,24 @@
 "use client";
 import Link from "next/link";
-import { FC, useEffect } from "react";
+import { FC, ReactNode, useEffect } from "react";
+
+interface SubLinkItem {
+  name: string;
+  href: string;
+}
 
 interface LinkItem {
   name: string;
   href: string;
+  subLinks?: SubLinkItem[];
 }
 
 interface MobileMenuProps {
   isOpen: boolean;
   links: LinkItem[];
   pathname: string;
+  serviceTimes?: string; // Make optional if not always required
+  children?: ReactNode; // Add children prop
   onClose: () => void;
 }
 
