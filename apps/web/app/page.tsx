@@ -144,6 +144,121 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* 5. Testimonials Section */}
+      <section className="py-16 bg-gray-100 dark:bg-gray-800">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold mb-12 text-center">
+            What People Say
+          </h2>
+          <div className="grid md:grid-cols-4 gap-8">
+            {[
+              {
+                quote:
+                  "This church changed my life. The community welcomed me like family when I needed it most.",
+                author: "Sarah M.",
+                role: "Member since 2019",
+              },
+              {
+                quote:
+                  "My kids love the youth programs, and I've grown through the small groups.",
+                author: "David T.",
+                role: "Volunteer",
+              },
+              {
+                quote:
+                  "The sermons speak directly to my everyday challenges as a working parent.",
+                author: "Lisa K.",
+                role: "First-time visitor",
+              },
+              {
+                quote:
+                  "The sermons speak directly to my everyday challenges as a working parent.",
+                author: "Monalisa Q.",
+                role: "Visitor",
+              },
+            ].map((testimonial, index) => (
+              <div
+                key={index}
+                className="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
+              >
+                <p className="italic mb-4 text-gray-700 dark:text-gray-300">
+                  &quot;{testimonial.quote}&quot;
+                </p>
+                <p className="font-semibold">{testimonial.author}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  {testimonial.role}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Ministries Section */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold mb-12 text-center">
+            Our Ministries
+          </h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              {
+                title: "Kids Ministry",
+                image: "/images/kid-ministry.jpg",
+                icon: "👧👦",
+                description: "Ages 3-12 | Sundays during service",
+                link: "/kids",
+              },
+              {
+                title: "Youth Group",
+                image: "/images/youth-group.jpg",
+                icon: "🧑‍🎤",
+                description: "Teens | Fridays at 7PM",
+                link: "/youth",
+              },
+              {
+                title: "Bible Study",
+                image: "/images/churchpic10.jpg",
+                icon: "📖",
+                description: "Adults | Wednesdays at 7PM",
+                link: "/bible-study",
+              },
+              {
+                title: "Outreach",
+                image: "/images/outreach.jpg",
+                icon: "🤝",
+                description: "Community service programs",
+                link: "/outreach",
+              },
+            ].map((ministry, index) => (
+              <Link
+                href={ministry.link}
+                key={index}
+                className="group border border-gray-200 dark:border-gray-600 rounded-lg overflow-hidden hover:shadow-lg transition-all hover:-translate-y-1"
+              >
+                <div className="relative h-48 w-full">
+                  <Image
+                    src={ministry.image}
+                    alt={ministry.title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    priority={index < 2} // Prioritize first 2 images
+                  />
+                </div>
+                <div className="p-6 text-center">
+                  <span className="text-4xl mb-3 block">{ministry.icon}</span>
+                  <h3 className="text-xl font-bold mb-2">{ministry.title}</h3>
+                  <p className="text-gray-600 dark:text-gray-300">
+                    {ministry.description}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Upcoming Events */}
       <section className="py-16">
         <div className="container mx-auto px-4">
@@ -275,6 +390,61 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* 9. Gallery Section */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold mb-12 text-center">Church Life</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+              <div
+                key={i}
+                className="aspect-square relative rounded-lg overflow-hidden hover:scale-105 transition-transform duration-300"
+              >
+                <Image
+                  src={`/images/churchpic${i}.jpg`}
+                  alt="Church activity"
+                  fill
+                  className="object-cover"
+                  priority={i < 4}
+                />
+              </div>
+            ))}
+          </div>
+          <div className="text-center mt-8">
+            <Link
+              href="/gallery"
+              className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:underline"
+            >
+              View Full Gallery <FiArrowRight className="ml-1" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Newsletter Section */}
+      <section className="py-16 bg-gray-100 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+        <div className="container mx-auto px-4 max-w-4xl text-center">
+          <h2 className="text-3xl font-bold mb-6">Stay Updated</h2>
+          <p className="text-xl mb-8 text-gray-700 dark:text-gray-300">
+            Get weekly inspiration and church updates
+          </p>
+          <form className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
+            <input
+              type="email"
+              placeholder="Your email"
+              className="flex-grow px-4 py-3 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600"
+              required
+            />
+            <button
+              type="submit"
+              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            >
+              Subscribe
+            </button>
+          </form>
+        </div>
+      </section>
+
       {/* Call to Action */}
       <section className="py-20 bg-blue-600 text-white text-center">
         <div className="container mx-auto px-4">
@@ -298,6 +468,17 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      {/* Floating Prayer Button */}
+      <div className="fixed bottom-6 right-6 z-50">
+        <Link
+          href="/prayer-request"
+          className="animate-pulse-slow bg-green-600 text-white p-4 rounded-full shadow-xl hover:bg-green-700 transition-all flex items-center gap-2"
+        >
+          <span>✝️</span>
+          <span className="hidden sm:inline">Prayer</span>
+        </Link>
+      </div>
     </div>
   );
 }
