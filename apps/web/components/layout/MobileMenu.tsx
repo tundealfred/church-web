@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { ReactNode, useEffect } from "react";
+import { useEffect } from "react";
 
 interface SubLinkItem {
   name: string;

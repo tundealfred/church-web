@@ -2,7 +2,15 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FiSearch, FiMoon, FiSun, FiMenu, FiX } from "react-icons/fi";
+import {
+  FiSearch,
+  FiMoon,
+  FiSun,
+  FiMenu,
+  FiX,
+  FiChevronDown,
+  FiChevronUp,
+} from "react-icons/fi";
 import MobileMenu from "./MobileMenu";
 import Logo from "./Logo";
 
@@ -10,6 +18,7 @@ export default function Navbar() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const pathname = usePathname();
 
   // Close mobile menu when route changes
@@ -39,11 +48,13 @@ export default function Navbar() {
     document.documentElement.classList.toggle("dark");
   };
 
+  const toggleDropdown = (linkName: string) => {
+    setOpenDropdown(openDropdown === linkName ? null : linkName);
+  };
+
   return (
     <>
-      <nav
-        className={`sticky top-0 z-50 bg-white dark:bg-gray-900 shadow-md transition-colors duration-300`}
-      >
+      <nav className="sticky top-0 z-50 bg-white dark:bg-gray-900 shadow-md transition-colors duration-300">
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
           {/* Logo */}
           <Link href="/" className="flex items-center">
@@ -53,17 +64,51 @@ export default function Navbar() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
             {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className={`px-3 py-2 rounded-md text-sm font-medium ${
-                  pathname === link.href
-                    ? "text-blue-600 dark:text-blue-400 font-semibold"
-                    : "text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400"
-                }`}
-              >
-                {link.name}
-              </Link>
+              <div key={link.name} className="relative group">
+                {link.subLinks ? (
+                  <>
+                    <button
+                      onClick={() => toggleDropdown(link.name)}
+                      className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400"
+                    >
+                      {link.name}
+                      {openDropdown === link.name ? (
+                        <FiChevronUp className="ml-1" />
+                      ) : (
+                        <FiChevronDown className="ml-1" />
+                      )}
+                    </button>
+                    {openDropdown === link.name && (
+                      <div className="absolute left-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg z-50">
+                        {link.subLinks.map((subLink) => (
+                          <Link
+                            key={subLink.href}
+                            href={subLink.href}
+                            className={`block px-4 py-2 text-sm ${
+                              pathname === subLink.href
+                                ? "text-blue-600 dark:text-blue-400 font-semibold"
+                                : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                            }`}
+                          >
+                            {subLink.name}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <Link
+                    href={link.href}
+                    className={`px-3 py-2 rounded-md text-sm font-medium ${
+                      pathname === link.href
+                        ? "text-blue-600 dark:text-blue-400 font-semibold"
+                        : "text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400"
+                    }`}
+                  >
+                    {link.name}
+                  </Link>
+                )}
+              </div>
             ))}
 
             {/* Search Icon */}
