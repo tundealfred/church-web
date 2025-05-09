@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { FC, ReactNode, useEffect } from "react";
+import { ReactNode, useEffect } from "react";
 
 interface SubLinkItem {
   name: string;
@@ -17,25 +17,20 @@ interface MobileMenuProps {
   isOpen: boolean;
   links: LinkItem[];
   pathname: string;
-  serviceTimes?: string; // Make optional if not always required
-  children?: ReactNode; // Add children prop
+  serviceTimes?: string;
   onClose: () => void;
 }
 
-const MobileMenu: FC<MobileMenuProps> = ({
+export default function MobileMenu({
   isOpen,
   links,
   pathname,
+  serviceTimes,
   onClose,
-}) => {
+}: MobileMenuProps) {
   // Prevent body scroll when menu is open
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-
+    document.body.style.overflow = isOpen ? "hidden" : "auto";
     return () => {
       document.body.style.overflow = "auto";
     };
@@ -62,20 +57,44 @@ const MobileMenu: FC<MobileMenuProps> = ({
       style={{ marginTop: "64px" }}
     >
       <div className="container mx-auto px-4 py-6 h-full overflow-y-auto mobile-menu-content">
+        {serviceTimes && (
+          <div className="mb-6 p-3 bg-gray-100 dark:bg-gray-800 rounded-lg">
+            <p className="font-medium text-gray-700 dark:text-gray-300">
+              Service Times: {serviceTimes}
+            </p>
+          </div>
+        )}
+
         <div className="flex flex-col space-y-4">
           {links.map((link) => (
-            <Link
-              key={link.href} // Better to use href as key since it's unique
-              href={link.href}
-              onClick={onClose}
-              className={`px-3 py-2 rounded-md text-base font-medium transition-colors ${
-                pathname === link.href
-                  ? "text-blue-600 dark:text-blue-400 font-semibold"
-                  : "text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400"
-              }`}
-            >
-              {link.name}
-            </Link>
+            <div key={link.href}>
+              <Link
+                href={link.href}
+                onClick={onClose}
+                className={`px-3 py-2 rounded-md text-base font-medium transition-colors block ${
+                  pathname === link.href
+                    ? "text-blue-600 dark:text-blue-400 font-semibold"
+                    : "text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400"
+                }`}
+              >
+                {link.name}
+              </Link>
+
+              {link.subLinks?.map((subLink) => (
+                <Link
+                  key={subLink.href}
+                  href={subLink.href}
+                  onClick={onClose}
+                  className={`ml-4 mt-2 px-3 py-1 rounded-md text-sm font-medium transition-colors block ${
+                    pathname === subLink.href
+                      ? "text-blue-500 dark:text-blue-300 font-semibold"
+                      : "text-gray-600 dark:text-gray-400 hover:text-blue-400 dark:hover:text-blue-300"
+                  }`}
+                >
+                  {subLink.name}
+                </Link>
+              ))}
+            </div>
           ))}
 
           <Link
@@ -89,6 +108,4 @@ const MobileMenu: FC<MobileMenuProps> = ({
       </div>
     </div>
   );
-};
-
-export default MobileMenu;
+}
