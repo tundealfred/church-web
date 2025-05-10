@@ -8,24 +8,6 @@ const __dirname = path.dirname(__filename);
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "standalone",
-  // Remove basePath and assetPrefix - they were causing issues
-  experimental: {
-    externalDir: true,
-  },
-  images: {
-    remotePatterns: [
-      {
-        protocol: "http",
-        hostname: "localhost",
-        port: "1337",
-        pathname: "/uploads/**",
-      },
-      {
-        protocol: "https",
-        hostname: "placehold.co",
-      },
-    ],
-  },
   transpilePackages: ["@repo/ui", "@utils"],
   webpack: (config) => {
     config.resolve.alias = {
