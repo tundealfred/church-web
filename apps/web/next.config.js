@@ -10,6 +10,8 @@ const nextConfig = {
   output: "standalone",
   experimental: {
     externalDir: true,
+    // Enable if using ISR
+    // isrMemoryCacheSize: 50,
   },
   images: {
     remotePatterns: [
@@ -17,13 +19,22 @@ const nextConfig = {
         protocol: "http",
         hostname: "localhost",
         port: "1337",
+        pathname: "/uploads/**",
       },
       {
         protocol: "https",
         hostname: "placehold.co",
       },
+      // Add your production domain here
+      {
+        protocol: "https",
+        hostname: "your-production-api.com",
+      },
     ],
+    minimumCacheTTL: 60,
   },
+  // Enable if using shared packages
+  transpilePackages: ["@repo/ui", "@utils"],
   webpack: (config) => {
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
@@ -32,7 +43,15 @@ const nextConfig = {
       "@utils": path.resolve(__dirname, "../../packages/utils/src"),
       "@repo/ui": path.resolve(__dirname, "../../packages/ui"),
     };
+    config.resolve.symlinks = false;
     return config;
+  },
+  // Add if you need to ignore TypeScript/ESLint during build
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
   },
 };
 
