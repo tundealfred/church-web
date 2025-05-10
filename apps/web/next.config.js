@@ -7,12 +7,10 @@ const __dirname = path.dirname(__filename);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: "standalone",
   experimental: {
     externalDir: true,
   },
-  //images: {
-  //domains: ["localhost", "placehold.co"], // Allow images from http://localhost:1337
-  //},
   images: {
     remotePatterns: [
       {

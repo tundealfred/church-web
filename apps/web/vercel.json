@@ -3,20 +3,15 @@
   "builds": [
     {
       "src": "apps/web/package.json",
-      "use": "@vercel/next",
-      "config": {
-        "rootDirectory": "apps/web"
-      }
+      "use": "@vercel/next"
     }
   ],
   "routes": [
     {
-      "src": "/(.*)",
-      "dest": "apps/web/$1",
-      "continue": true
+      "src": "/.*",
+      "dest": "/apps/web/$1"
     }
   ],
   "buildCommand": "cd apps/web && npm run build",
-  "installCommand": "cd apps/web && npm install",
-  "outputDirectory": "apps/web/.next"
+  "installCommand": "cd apps/web && npm install"
 }
