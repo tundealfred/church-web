@@ -53,6 +53,8 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  basePath: "/apps/web",
+  assetPrefix: "/apps/web",
 };
 
 export default nextConfig;
