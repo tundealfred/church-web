@@ -1,7 +1,22 @@
 {
   "version": 2,
-  "buildCommand": "turbo run build --filter=web",
-  "installCommand": "npm install",
-  "outputDirectory": "apps/web/.next",
-  "rootDirectory": "apps/web"
+  "builds": [
+    {
+      "src": "apps/web/package.json",
+      "use": "@vercel/next",
+      "config": {
+        "rootDirectory": "apps/web"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "apps/web/$1",
+      "continue": true
+    }
+  ],
+  "buildCommand": "cd apps/web && npm run build",
+  "installCommand": "cd apps/web && npm install",
+  "outputDirectory": "apps/web/.next"
 }
