@@ -7,8 +7,8 @@ import { Event } from "@utils/api";
 
 export function EventCard({ event }: { event: Event }) {
   const imageUrl =
-    event.attributes.Image.data?.attributes.formats?.thumbnail?.url ||
-    event.attributes.Image.data?.attributes.url;
+    event.attributes.Image.data?.[0]?.attributes?.formats?.thumbnail?.url ||
+    event.attributes.Image.data?.[0]?.attributes?.url;
 
   return (
     <div className="bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden">
