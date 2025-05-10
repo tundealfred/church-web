@@ -9,6 +9,14 @@
       }
     }
   ],
-  "buildCommand": "npm run build",
-  "installCommand": "npm install"
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "apps/web/$1",
+      "continue": true
+    }
+  ],
+  "buildCommand": "cd apps/web && npm run build",
+  "installCommand": "cd apps/web && npm install",
+  "outputDirectory": "apps/web/.next"
 }
