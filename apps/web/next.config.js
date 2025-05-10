@@ -11,6 +11,9 @@ const nextConfig = {
   // Remove basePath and assetPrefix - they were causing issues
   experimental: {
     externalDir: true,
+    // Add this to handle 404 page specifically
+    isrMemoryCacheSize: 50,
+    largePageDataBytes: 128 * 1000,
   },
   images: {
     remotePatterns: [
@@ -44,6 +47,9 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  // Add this to skip problematic pages during build
+  skipTrailingSlashRedirect: true,
+  skipMiddlewareUrlNormalize: true,
 };
 
 export default nextConfig;
