@@ -1,4 +1,4 @@
-//web/pages/about.tsx
+//web/app/about/page.tsx
 import Image from "next/image";
 import { FiArrowRight } from "react-icons/fi";
 import Link from "next/link";
@@ -15,6 +15,7 @@ export default function AboutPage() {
             fill
             className="object-cover object-center"
             priority
+            sizes="100vw"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/30" />
         </div>
@@ -36,6 +37,7 @@ export default function AboutPage() {
                   alt="Our church building"
                   fill
                   className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
             </div>
